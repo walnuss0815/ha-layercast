@@ -2,7 +2,7 @@
   "domain": "layercast",
   "name": "Layercast",
   "after_dependencies": ["weather"],
-  "categories": ["weather_alerts.forecasts"],
+  "categories": ["weather_alerts"],
   "codeowners": ["@walnuss0815"],
   "config_flow": true,
   "dependencies": ["frontend", "http"],
