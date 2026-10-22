@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      /* Minimal stand-ins for the Home Assistant theme and <ha-card>. */
+      :root {
+        --primary-text-color: #212121;
+        --secondary-text-color: #727272;
+        --divider-color: #e0e0e0;
+      }
+      body { margin: 0; padding: 24px; width: 900px; background: #f4f4f4; font-family: Roboto, sans-serif; }
+    </style>
+    <script>
+      // The card registers once the Home Assistant app is up; stand in for it.
+      customElements.define("home-assistant", class extends HTMLElement {});
+      customElements.define("ha-card", class extends HTMLElement {
+        connectedCallback() {
+          this.attachShadow({ mode: "open" }).innerHTML = `
+            <style>
+              :host { display: block; background: #fff; border-radius: 12px; overflow: hidden;
+                      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); }
+              .header { padding: 16px 16px 0; font-size: 1.4em; color: #212121; }
+            </style>
+            ${this.getAttribute("header") ? `<div class="header">${this.getAttribute("header")}</div>` : ""}
+            <slot></slot>`;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <layercast-card></layercast-card>
+    <script type="module">
+      import "/layercast_static/layercast-card.js";
+
+      // ?layout=timeline|timeline-small|compact|list|auto  ?width=<px of the card>
+      // ?figure_url=<folder of an own figure>
+      // ?scenario=day (everything the source can give) | plain (temperature only, like a
+      // source without feels-like, rain probability and UV)
+      const params = new URLSearchParams(location.search);
+      const layout = params.get("layout") || "timeline";
+      const width = Number(params.get("width") || 900);
+      const scenario = params.get("scenario") || "day";
+      document.body.style.width = `${width}px`;
+
+      // Everything happens on 2026-10-22, in UTC, and it is 12:30: the "Day" period is running.
+      const NOW = new Date("2026-10-22T12:30:00Z");
+      const at = (hour) => new Date(Date.UTC(2026, 9, 22, hour)).toISOString();
+      const items = (...pairs) => pairs.map(([name, image]) => ({ name, image }));
+      // Mock sensors in the shape the integration produces (see coordinator.py).
+      const sensor = (period, start, end, list, values) => ({
+        state: list.map((i) => i.name).join(", "),
+        last_updated: "now",
+        attributes: { friendly_name: `Layercast Home ${period}`, period, start: at(start), end: at(end), hours: end - start, items: list, unsupported: [], values },
+      });
+
+      const SCENARIOS = {
+        day: {
+          "sensor.layercast_home_morning": sensor("Morning", 7, 11,
+            items(["Sweater", "sweater"], ["Jacket", "jacket"], ["Trousers", "trousers"], ["Boots", "boots"], ["Hat", "hat"], ["Gloves", "gloves"]),
+            { temp_min: 5, temp_max: 9, feels_min: 2.7, feels_max: 7, rain_probability_max: 20 }),
+          "sensor.layercast_home_day": sensor("Day", 11, 17,
+            items(["T-shirt", "tshirt"], ["Shorts", "shorts"], ["Sneakers", "sneakers"], ["Sun cap", "sun_cap"], ["Sunglasses", "sunglasses"], ["Sunscreen", "sunscreen"]),
+            { temp_min: 19, temp_max: 25, feels_min: 19, feels_max: 25, rain_probability_max: 10, uv_max: 7 }),
+          "sensor.layercast_home_evening": sensor("Evening", 17, 22,
+            items(["Long sleeve", "long_sleeve"], ["Light jacket", "light_jacket"], ["Rain jacket", "rain_jacket"], ["Trousers", "trousers"], ["Rain boots", "rain_boots"]),
+            { temp_min: 11, temp_max: 14, feels_min: 8.5, feels_max: 12, rain_probability_max: 70 }),
+        },
+        plain: {
+          "sensor.layercast_home_morning": sensor("Morning", 7, 11,
+            items(["Sweater", "sweater"], ["Jacket", "jacket"], ["Trousers", "trousers"], ["Boots", "boots"], ["Hat", "hat"], ["Gloves", "gloves"]),
+            { temp_min: 3, temp_max: 6, feels_min: 3, feels_max: 6 }),
+          "sensor.layercast_home_day": sensor("Day", 11, 17,
+            items(["Long sleeve", "long_sleeve"], ["Light jacket", "light_jacket"], ["Trousers", "trousers"], ["Sneakers", "sneakers"]),
+            { temp_min: 8, temp_max: 12, feels_min: 8, feels_max: 12 }),
+          "sensor.layercast_home_evening": sensor("Evening", 17, 22,
+            items(["Long sleeve", "long_sleeve"], ["Jacket", "jacket"], ["Trousers", "trousers"], ["Sneakers", "sneakers"]),
+            { temp_min: 6, temp_max: 9, feels_min: 6, feels_max: 9 }),
+        },
+      };
+      const states = SCENARIOS[scenario];
+
+      await customElements.whenDefined("layercast-card");
+      const card = document.querySelector("layercast-card");
+      card._now = () => NOW;
+      const figureUrl = params.get("figure_url");
+      card.setConfig({ title: "What to wear", entities: Object.keys(states), figure: "neutral", layout, ...(figureUrl && { figure_url: figureUrl }) });
+      card.hass = {
+        states,
+        locale: { language: "en" },
+        config: { time_zone: "UTC", unit_system: { temperature: "°C" } },
+      };
+      // The figure loads asynchronously: wait for all images before the screenshot.
+      const settle = () => {
+        const imgs = [...card.shadowRoot.querySelectorAll("img")];
+        if (imgs.length && imgs.every((i) => i.complete)) document.body.dataset.ready = "true";
+        else setTimeout(settle, 50);
+      };
+      settle();
+    </script>
+  </body>
+</html>

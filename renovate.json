@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "packageRules": [
+    {
+      "description": "One PR for all test dependencies",
+      "matchManagers": ["pip_requirements"],
+      "groupName": "test dependencies"
+    },
+    {
+      "description": "Automerge minor, patch and digest updates once CI passes",
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
+      "automerge": true
+    }
+  ]
+}

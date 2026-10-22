@@ -1,0 +1,15 @@
+{
+  "domain": "layercast",
+  "name": "Layercast",
+  "after_dependencies": ["weather"],
+  "categories": ["weather_alerts.forecasts"],
+  "codeowners": ["@walnuss0815"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/walnuss0815/ha-layercast",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/walnuss0815/ha-layercast/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

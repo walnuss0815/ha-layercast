@@ -1,0 +1,180 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Layercast",
+        "description": "Pick the weather entity to base clothing recommendations on. It must provide an hourly forecast. Default periods and rules are created and can be changed afterwards.",
+        "data": {
+          "weather_entity": "Weather entity"
+        }
+      },
+      "reconfigure": {
+        "title": "Change weather entity",
+        "data": {
+          "weather_entity": "Weather entity"
+        }
+      }
+    },
+    "error": {
+      "no_hourly_forecast": "This weather entity does not provide an hourly forecast."
+    },
+    "abort": {
+      "already_configured": "This weather entity is already configured.",
+      "reconfigure_successful": "The weather entity was changed."
+    }
+  },
+  "config_subentries": {
+    "period": {
+      "entry_type": "Period",
+      "initiate_flow": {
+        "user": "Add period",
+        "reconfigure": "Change period"
+      },
+      "step": {
+        "user": {
+          "title": "Add period",
+          "description": "A time window of the day. If it already ended today, the same period tomorrow is used. If the end is before the start, it runs past midnight.",
+          "data": {
+            "name": "Name",
+            "start": "Start",
+            "end": "End"
+          }
+        },
+        "reconfigure": {
+          "title": "Change period",
+          "data": {
+            "name": "Name",
+            "start": "Start",
+            "end": "End"
+          }
+        }
+      }
+    },
+    "rule": {
+      "entry_type": "Rule",
+      "initiate_flow": {
+        "user": "Add rule",
+        "reconfigure": "Change rule"
+      },
+      "step": {
+        "user": {
+          "title": "Add rule",
+          "description": "A garment or item and where it is shown. In the next step you set the weather it is recommended for.",
+          "data": {
+            "name": "Name",
+            "image": "Image",
+            "image_url": "Custom image URL",
+            "group": "Group",
+            "priority": "Priority"
+          },
+          "data_description": {
+            "image_url": "Shown as a badge instead of the bundled icon. Items that a figure does not draw are shown this way.",
+            "group": "Within a group only the matching rule with the highest priority is shown, for example one jacket out of several.",
+            "priority": "Higher wins within a group. On a tie the rule listed first wins.",
+            "image": "Drawn on the figure if the figure has this item, otherwise shown as a small badge below it."
+          }
+        },
+        "reconfigure": {
+          "title": "Change rule",
+          "description": "A garment or item and where it is shown. In the next step you set the weather it is recommended for.",
+          "data": {
+            "name": "Name",
+            "image": "Image",
+            "image_url": "Custom image URL",
+            "group": "Group",
+            "priority": "Priority"
+          },
+          "data_description": {
+            "image_url": "Shown as a badge instead of the bundled icon. Items that a figure does not draw are shown this way.",
+            "group": "Within a group only the matching rule with the highest priority is shown, for example one jacket out of several.",
+            "priority": "Higher wins within a group. On a tie the rule listed first wins.",
+            "image": "Drawn on the figure if the figure has this item, otherwise shown as a small badge below it."
+          }
+        },
+        "conditions": {
+          "title": "Weather conditions",
+          "description": "Leave a field empty to ignore it. All filled fields must match. A rule that needs data the weather entity does not provide is never shown and is listed as unsupported on the sensor.",
+          "data": {
+            "temp_below": "Temperature at or below",
+            "temp_above": "Temperature at or above",
+            "temp_min_above": "Coldest temperature at or above",
+            "feels_below": "Feels-like at or below",
+            "feels_above": "Feels-like at or above",
+            "rain_probability": "Rain probability at or above",
+            "rain_amount": "Rain amount at or above",
+            "wind": "Wind speed at or above",
+            "gusts": "Gusts at or above",
+            "uv": "UV index at or above",
+            "humidity": "Humidity at or above",
+            "conditions": "Weather condition is one of"
+          },
+          "data_description": {
+            "temp_below": "Matches if it gets this cold at any time in the period.",
+            "temp_above": "Matches if it gets this warm at any time in the period.",
+            "temp_min_above": "Matches only if even the coldest hour of the period is this warm.",
+            "feels_below": "Like temperature, but includes wind chill. Calculated if the weather entity does not provide a feels-like forecast.",
+            "feels_above": "Like temperature, but includes the heat index. Calculated if the weather entity does not provide a feels-like forecast.",
+            "rain_probability": "Highest probability in the period.",
+            "rain_amount": "Total over the period.",
+            "wind": "Highest in the period.",
+            "gusts": "Highest in the period.",
+            "uv": "Highest in the period. Hours with the sun low in the sky count as 0, because some sources repeat the daily maximum for every hour."
+          }
+        }
+      }
+    }
+  },
+  "selector": {
+    "image": {
+      "options": {
+        "tshirt": "T-shirt",
+        "long_sleeve": "Long sleeve",
+        "sweater": "Sweater",
+        "light_jacket": "Light jacket",
+        "jacket": "Jacket",
+        "winter_coat": "Winter coat",
+        "rain_jacket": "Rain jacket",
+        "umbrella": "Umbrella",
+        "hat": "Hat",
+        "gloves": "Gloves",
+        "sunglasses": "Sunglasses",
+        "sunscreen": "Sunscreen",
+        "generic": "Generic",
+        "sun_cap": "Sun cap",
+        "trousers": "Trousers",
+        "shorts": "Shorts",
+        "thermal_trousers": "Thermal trousers",
+        "sneakers": "Sneakers",
+        "boots": "Boots",
+        "rain_boots": "Rain boots"
+      }
+    },
+    "weather_condition": {
+      "options": {
+        "clear-night": "Clear, night",
+        "cloudy": "Cloudy",
+        "exceptional": "Exceptional",
+        "fog": "Fog",
+        "hail": "Hail",
+        "lightning": "Lightning",
+        "lightning-rainy": "Lightning, rainy",
+        "partlycloudy": "Partly cloudy",
+        "pouring": "Pouring",
+        "rainy": "Rainy",
+        "snowy": "Snowy",
+        "snowy-rainy": "Snowy, rainy",
+        "sunny": "Sunny",
+        "windy": "Windy",
+        "windy-variant": "Windy, cloudy"
+      }
+    }
+  },
+  "exceptions": {
+    "weather_unavailable": {
+      "message": "The weather entity {entity} is not available."
+    },
+    "forecast_failed": {
+      "message": "Could not get the hourly forecast of {entity}: {error}"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { margin: 0; padding: 16px; width: 1680px; background: #fff; font: 13px Roboto, sans-serif; color: #333; }
+      h2 { margin: 16px 0 4px; font-size: 15px; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; }
+      figure { margin: 0; width: 200px; text-align: center; background: #f6f6f6; border-radius: 6px; padding-bottom: 4px; }
+      .stack { position: relative; width: 200px; height: 400px; }
+      .stack img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      // Every relevant combination of the layers of a figure, for checking how they fit.
+      // ?figure=<folder> picks the figure (default neutral), ?dir=1 a folder given to figures.mjs with
+      // --dir, ?set=<name> only one section.
+      const params = new URLSearchParams(location.search);
+      const base = params.get("dir") ? "/figure-dir/" : `/layercast_static/figures/${params.get("figure") || "neutral"}/`;
+      const figure = await (await fetch(`${base}figure.json`)).json();
+
+      const BASE = ["trousers", "sneakers"];
+      const sections = {
+        tops: ["tshirt", "long_sleeve", "sweater", "light_jacket", "jacket", "winter_coat", "rain_jacket"]
+          .map((top) => [top, [...BASE, top]]),
+        layers: [
+          ["tshirt + light_jacket", ["tshirt", "light_jacket"]],
+          ["long_sleeve + jacket", ["long_sleeve", "jacket"]],
+          ["sweater + jacket", ["sweater", "jacket"]],
+          ["sweater + winter_coat", ["sweater", "winter_coat"]],
+          ["tshirt + rain_jacket", ["tshirt", "rain_jacket"]],
+          ["sweater + jacket + rain_jacket", ["sweater", "jacket", "rain_jacket"]],
+          ["sweater + winter_coat + rain_jacket", ["sweater", "winter_coat", "rain_jacket"]],
+          ["long_sleeve + light_jacket + gloves", ["long_sleeve", "light_jacket", "gloves"]],
+        ].map(([label, items]) => [label, [...BASE, ...items]]),
+        legs: [
+          ["shorts + sneakers", ["tshirt", "shorts", "sneakers"]],
+          ["trousers + sneakers", ["tshirt", "trousers", "sneakers"]],
+          ["trousers + boots", ["sweater", "trousers", "boots"]],
+          ["trousers + rain_boots", ["tshirt", "trousers", "rain_boots"]],
+          ["thermal_trousers + boots", ["sweater", "thermal_trousers", "boots"]],
+          ["shorts + rain_boots", ["tshirt", "shorts", "rain_boots"]],
+        ],
+        head: [
+          ["hat", ["hat"]],
+          ["hat + sunglasses", ["hat", "sunglasses"]],
+          ["sun_cap", ["sun_cap"]],
+          ["sun_cap + sunglasses", ["sun_cap", "sunglasses"]],
+          ["sunglasses", ["sunglasses"]],
+          ["winter_coat + hat + gloves", ["winter_coat", "hat", "gloves"]],
+        ].map(([label, items]) => [label, [...BASE, "tshirt", ...items]].filter((v, i, a) => a.indexOf(v) === i)),
+        accessories: [
+          ["umbrella", ["tshirt", "umbrella"]],
+          ["umbrella + gloves", ["jacket", "umbrella", "gloves"]],
+          ["rain_jacket + umbrella", ["sweater", "rain_jacket", "umbrella"]],
+          ["gloves", ["sweater", "gloves"]],
+        ].map(([label, items]) => [label, [...BASE, ...items]]),
+      };
+
+      const only = params.get("set");
+      for (const [name, cells] of Object.entries(sections)) {
+        if (only && only !== name) continue;
+        const h = document.createElement("h2");
+        h.textContent = name;
+        const row = document.createElement("div");
+        row.className = "row";
+        document.body.append(h, row);
+        for (const [label, items] of cells) {
+          const layers = items
+            .filter((key) => figure.layers[key])
+            .map((key) => figure.layers[key])
+            .sort((a, b) => a.z - b.z);
+          const cell = document.createElement("figure");
+          cell.innerHTML = `<div class="stack" style="height:${(200 * figure.height) / figure.width}px"><img src="${base}${figure.base}">${layers
+            .map((l) => `<img src="${base}${l.file}">`)
+            .join("")}</div>${label}`;
+          row.append(cell);
+        }
+      }
+      await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+      document.body.dataset.ready = "true";
+    </script>
+  </body>
+</html>

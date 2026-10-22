@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 320">
+  <defs>
+    <g id="b">
+      <path d="M52.5 264H79V287Q81 289 81 295V300H48V295Q48 289 52.5 287Z" fill="#6d4c41" stroke="#3e2723" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M52.5 272H79M48 297H81" fill="none" stroke="#3e2723" stroke-width="2.5"/>
+    </g>
+  </defs>
+  <use href="#b"/>
+  <use href="#b" transform="translate(160 0) scale(-1 1)"/>
+</svg>

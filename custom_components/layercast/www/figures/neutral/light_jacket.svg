@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 320">
+  <defs>
+    <g id="h" stroke="#455a64" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M62 74 L44.5 78 L21.2 155.1 L47 162.9 L49 156.4 L49 178 L75 178 L74 90 L72 77Z" fill="#90a4ae"/>
+      <path d="M22.6 150.3L48.5 158.1M72 77L62 74" fill="none" stroke-width="2"/>
+    </g>
+  </defs>
+  <use href="#h"/>
+  <use href="#h" transform="translate(160 0) scale(-1 1)"/>
+</svg>

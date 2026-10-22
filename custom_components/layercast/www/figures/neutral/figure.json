@@ -1,0 +1,26 @@
+{
+  "name": "Neutral",
+  "width": 160,
+  "height": 320,
+  "base": "body.svg",
+  "layers": {
+    "trousers": { "file": "trousers.svg", "z": 10 },
+    "shorts": { "file": "shorts.svg", "z": 10 },
+    "thermal_trousers": { "file": "thermal_trousers.svg", "z": 10 },
+    "sneakers": { "file": "sneakers.svg", "z": 20 },
+    "boots": { "file": "boots.svg", "z": 20 },
+    "rain_boots": { "file": "rain_boots.svg", "z": 20 },
+    "tshirt": { "file": "tshirt.svg", "z": 30 },
+    "long_sleeve": { "file": "long_sleeve.svg", "z": 30 },
+    "sweater": { "file": "sweater.svg", "z": 30 },
+    "light_jacket": { "file": "light_jacket.svg", "z": 40 },
+    "jacket": { "file": "jacket.svg", "z": 40 },
+    "winter_coat": { "file": "winter_coat.svg", "z": 40 },
+    "rain_jacket": { "file": "rain_jacket.svg", "z": 45 },
+    "gloves": { "file": "gloves.svg", "z": 25 },
+    "hat": { "file": "hat.svg", "z": 70 },
+    "sun_cap": { "file": "sun_cap.svg", "z": 70 },
+    "sunglasses": { "file": "sunglasses.svg", "z": 75 },
+    "umbrella": { "file": "umbrella.svg", "z": 80 }
+  }
+}

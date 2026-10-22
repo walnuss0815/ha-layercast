@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 320">
+  <defs>
+    <g id="g" stroke="#00695c" stroke-width="2.5" stroke-linejoin="round">
+      <circle cx="32" cy="172" r="10" fill="#26a69a"/>
+      <ellipse cx="43" cy="167" rx="4" ry="6" fill="#26a69a"/>
+      <rect x="23" y="157" width="19" height="9" rx="3" fill="#b2dfdb"/>
+    </g>
+  </defs>
+  <use href="#g"/>
+  <use href="#g" transform="translate(160 0) scale(-1 1)"/>
+</svg>

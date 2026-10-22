@@ -1,0 +1,180 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Layercast",
+        "description": "Wähle die Wetter-Entität, auf der die Kleidungsempfehlungen basieren. Sie muss eine stündliche Vorhersage liefern. Standard-Zeiträume und -Regeln werden angelegt und können danach geändert werden.",
+        "data": {
+          "weather_entity": "Wetter-Entität"
+        }
+      },
+      "reconfigure": {
+        "title": "Wetter-Entität ändern",
+        "data": {
+          "weather_entity": "Wetter-Entität"
+        }
+      }
+    },
+    "error": {
+      "no_hourly_forecast": "Diese Wetter-Entität liefert keine stündliche Vorhersage."
+    },
+    "abort": {
+      "already_configured": "Diese Wetter-Entität ist bereits eingerichtet.",
+      "reconfigure_successful": "Die Wetter-Entität wurde geändert."
+    }
+  },
+  "config_subentries": {
+    "period": {
+      "entry_type": "Zeitraum",
+      "initiate_flow": {
+        "user": "Zeitraum hinzufügen",
+        "reconfigure": "Zeitraum ändern"
+      },
+      "step": {
+        "user": {
+          "title": "Zeitraum hinzufügen",
+          "description": "Ein Zeitfenster des Tages. Ist es heute schon vorbei, wird derselbe Zeitraum von morgen verwendet. Liegt das Ende vor dem Beginn, geht der Zeitraum über Mitternacht.",
+          "data": {
+            "name": "Name",
+            "start": "Beginn",
+            "end": "Ende"
+          }
+        },
+        "reconfigure": {
+          "title": "Zeitraum ändern",
+          "data": {
+            "name": "Name",
+            "start": "Beginn",
+            "end": "Ende"
+          }
+        }
+      }
+    },
+    "rule": {
+      "entry_type": "Regel",
+      "initiate_flow": {
+        "user": "Regel hinzufügen",
+        "reconfigure": "Regel ändern"
+      },
+      "step": {
+        "user": {
+          "title": "Regel hinzufügen",
+          "description": "Ein Kleidungsstück oder Gegenstand und seine Darstellung. Im nächsten Schritt legst du das Wetter fest, bei dem er empfohlen wird.",
+          "data": {
+            "name": "Name",
+            "image": "Bild",
+            "image_url": "Eigene Bild-URL",
+            "group": "Gruppe",
+            "priority": "Priorität"
+          },
+          "data_description": {
+            "image_url": "Wird statt des mitgelieferten Symbols als Symbol unter der Figur gezeigt. So werden auch Teile dargestellt, die eine Figur nicht zeichnet.",
+            "group": "Innerhalb einer Gruppe wird nur die passende Regel mit der höchsten Priorität angezeigt, zum Beispiel eine Jacke von mehreren.",
+            "priority": "Höher gewinnt innerhalb einer Gruppe. Bei Gleichstand gewinnt die zuerst aufgeführte Regel.",
+            "image": "Wird an der Figur gezeigt, wenn sie dieses Teil hat, sonst als kleines Symbol darunter."
+          }
+        },
+        "reconfigure": {
+          "title": "Regel ändern",
+          "description": "Ein Kleidungsstück oder Gegenstand und seine Darstellung. Im nächsten Schritt legst du das Wetter fest, bei dem er empfohlen wird.",
+          "data": {
+            "name": "Name",
+            "image": "Bild",
+            "image_url": "Eigene Bild-URL",
+            "group": "Gruppe",
+            "priority": "Priorität"
+          },
+          "data_description": {
+            "image_url": "Wird statt des mitgelieferten Symbols als Symbol unter der Figur gezeigt. So werden auch Teile dargestellt, die eine Figur nicht zeichnet.",
+            "group": "Innerhalb einer Gruppe wird nur die passende Regel mit der höchsten Priorität angezeigt, zum Beispiel eine Jacke von mehreren.",
+            "priority": "Höher gewinnt innerhalb einer Gruppe. Bei Gleichstand gewinnt die zuerst aufgeführte Regel.",
+            "image": "Wird an der Figur gezeigt, wenn sie dieses Teil hat, sonst als kleines Symbol darunter."
+          }
+        },
+        "conditions": {
+          "title": "Wetterbedingungen",
+          "description": "Leere Felder werden ignoriert. Alle ausgefüllten Felder müssen zutreffen. Eine Regel, die Daten braucht, die die Wetter-Entität nicht liefert, wird nie angezeigt und am Sensor als nicht unterstützt aufgeführt.",
+          "data": {
+            "temp_below": "Temperatur höchstens",
+            "temp_above": "Temperatur mindestens",
+            "temp_min_above": "Kälteste Temperatur mindestens",
+            "feels_below": "Gefühlte Temperatur höchstens",
+            "feels_above": "Gefühlte Temperatur mindestens",
+            "rain_probability": "Regenwahrscheinlichkeit mindestens",
+            "rain_amount": "Regenmenge mindestens",
+            "wind": "Windgeschwindigkeit mindestens",
+            "gusts": "Böen mindestens",
+            "uv": "UV-Index mindestens",
+            "humidity": "Luftfeuchtigkeit mindestens",
+            "conditions": "Wetterlage ist eine von"
+          },
+          "data_description": {
+            "temp_below": "Trifft zu, wenn es im Zeitraum irgendwann so kalt wird.",
+            "temp_above": "Trifft zu, wenn es im Zeitraum irgendwann so warm wird.",
+            "temp_min_above": "Trifft nur zu, wenn selbst die kälteste Stunde des Zeitraums so warm ist.",
+            "feels_below": "Wie die Temperatur, berücksichtigt aber den Windchill. Wird berechnet, wenn die Wetter-Entität keine gefühlte Temperatur liefert.",
+            "feels_above": "Wie die Temperatur, berücksichtigt aber den Hitzeindex. Wird berechnet, wenn die Wetter-Entität keine gefühlte Temperatur liefert.",
+            "rain_probability": "Höchste Wahrscheinlichkeit im Zeitraum.",
+            "rain_amount": "Summe über den Zeitraum.",
+            "wind": "Höchster Wert im Zeitraum.",
+            "gusts": "Höchster Wert im Zeitraum.",
+            "uv": "Höchster Wert im Zeitraum. Stunden mit tiefstehender Sonne zählen als 0, weil manche Quellen das Tagesmaximum für jede Stunde wiederholen."
+          }
+        }
+      }
+    }
+  },
+  "selector": {
+    "image": {
+      "options": {
+        "tshirt": "T-Shirt",
+        "long_sleeve": "Langarmshirt",
+        "sweater": "Pullover",
+        "light_jacket": "Leichte Jacke",
+        "jacket": "Jacke",
+        "winter_coat": "Winterjacke",
+        "rain_jacket": "Regenjacke",
+        "umbrella": "Regenschirm",
+        "hat": "Mütze",
+        "gloves": "Handschuhe",
+        "sunglasses": "Sonnenbrille",
+        "sunscreen": "Sonnencreme",
+        "generic": "Allgemein",
+        "sun_cap": "Sonnenkappe",
+        "trousers": "Hose",
+        "shorts": "Kurze Hose",
+        "thermal_trousers": "Thermohose",
+        "sneakers": "Turnschuhe",
+        "boots": "Stiefel",
+        "rain_boots": "Gummistiefel"
+      }
+    },
+    "weather_condition": {
+      "options": {
+        "clear-night": "Klar, Nacht",
+        "cloudy": "Bewölkt",
+        "exceptional": "Außergewöhnlich",
+        "fog": "Nebel",
+        "hail": "Hagel",
+        "lightning": "Gewitter",
+        "lightning-rainy": "Gewitter mit Regen",
+        "partlycloudy": "Teilweise bewölkt",
+        "pouring": "Starkregen",
+        "rainy": "Regnerisch",
+        "snowy": "Schnee",
+        "snowy-rainy": "Schneeregen",
+        "sunny": "Sonnig",
+        "windy": "Windig",
+        "windy-variant": "Windig, bewölkt"
+      }
+    }
+  },
+  "exceptions": {
+    "weather_unavailable": {
+      "message": "Die Wetter-Entität {entity} ist nicht verfügbar."
+    },
+    "forecast_failed": {
+      "message": "Die stündliche Vorhersage von {entity} konnte nicht abgerufen werden: {error}"
+    }
+  }
+}
