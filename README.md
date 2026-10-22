@@ -256,6 +256,19 @@ uv venv && uv pip install -r requirements-test.txt
   `?scenario=`) (`node brand.mjs` does the brand images). The *Screenshot* workflow does
   the same in CI.
 
+## Releasing
+
+Releases are made by [Release Please](https://github.com/googleapis/release-please) from the
+[Conventional Commits](https://www.conventionalcommits.org/) on `main`.
+
+- It keeps a pull request open, "chore(main): release x.y.z", with the next version and the
+  changelog. A `feat` raises the minor version, a `fix` the patch version, and a breaking change
+  (`feat!:` or a `BREAKING CHANGE:` footer) the major version. The first release is `0.1.0`.
+- A pull request that Release Please opens does not start the CI checks. Close and reopen it to
+  run them, then merge it.
+- Merging it creates the tag and the GitHub release, updates `CHANGELOG.md` and the version in
+  `custom_components/layercast/manifest.json`. HACS offers the release.
+
 ## License
 
 [Apache License 2.0](LICENSE)
