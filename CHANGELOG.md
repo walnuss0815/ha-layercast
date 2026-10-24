@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/walnuss0815/ha-layercast/compare/v0.1.0...v0.1.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* keep card layers below the app bar ([9994afa](https://github.com/walnuss0815/ha-layercast/commit/9994afa5ed398d63bd494b8d040255b5d83c1188))
+
 ## 0.1.0 (2026-10-22)
 
 
