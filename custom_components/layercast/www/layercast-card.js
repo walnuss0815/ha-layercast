@@ -357,7 +357,10 @@ function list(periods, ctx) {
 }
 
 const STYLE = `
-  :host { display: block; }
+  /* Own stacking context: the z-index of internal elements (figure layers 10–80, badge
+     tooltips 100) would otherwise compete in the root context and end up above the
+     Home Assistant app bar (z-index 4). */
+  :host { display: block; isolation: isolate; }
   .row { min-height: 1.4em; line-height: 1.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   h3 { margin: 0; font-size: 1.1em; font-weight: 500; color: var(--primary-text-color); }
   .muted { color: var(--secondary-text-color); font-size: 0.85em; }
