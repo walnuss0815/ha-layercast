@@ -171,6 +171,13 @@ test("items without a layer become badges, the others are drawn", async () => {
   assert.match(out, /data-name="Sunscreen"[^>]*> <img src="\/layercast_static\/icons\/sunscreen\.svg"/);
 });
 
+test("the card host has its own stacking context", async () => {
+  // Without it the z-index of figure layers and badge tooltips would be compared in the root
+  // context and would end up above the Home Assistant app bar (z-index 4).
+  const card = await mount({}, DAY_STATES());
+  assert.match(card.shadowRoot.innerHTML, /:host \{[^}]*isolation: isolate/);
+});
+
 // --- the rows of the timeline: the figures must start at the same height --------------------
 
 const rowsAboveFigure = (out) =>
